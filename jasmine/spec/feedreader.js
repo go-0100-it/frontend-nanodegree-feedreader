@@ -32,24 +32,13 @@ $(function() {
          * in the allFeeds object and ensures it has a URL defined
          * and that the URL is not empty.
          */
-        it('each feed contains a key named "url" and the value is not empty', function() {
-            for(var i = 0; i < len; i++){
-                expect(allFeeds[i].hasOwnProperty("url")).toBe(true);
-                expect(allFeeds[i].url).toBeTruthy();
-            };
-        });
-
+        
 
         /* TODO: Write a test that loops through each feed
          * in the allFeeds object and ensures it has a name defined
          * and that the name is not empty.
          */
-         it('each feed contains a key named "name" and the value is not empty', function() {
-            for(var i = 0; i < len; i++){
-                expect(allFeeds[i].hasOwnProperty("name")).toBe(true);
-                expect(allFeeds[i].url).toBeTruthy();
-            };
-        });
+         
     });
 
 
