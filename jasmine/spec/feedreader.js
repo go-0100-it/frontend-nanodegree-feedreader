@@ -38,23 +38,23 @@ $(function() {
                 expect(allFeeds[i].url).toBeTruthy();
             };
         });
-        
+
 
         /* TODO: Write a test that loops through each feed
          * in the allFeeds object and ensures it has a name defined
          * and that the name is not empty.
          */
-        it('each feed contains a key named "name" and the value is not empty', function() {
+         it('each feed contains a key named "name" and the value is not empty', function() {
             for(var i = 0; i < len; i++){
                 expect(allFeeds[i].hasOwnProperty("name")).toBe(true);
                 expect(allFeeds[i].url).toBeTruthy();
             };
         });
-         
     });
 
 
     /* TODO: Write a new test suite named "The menu" */
+    describe('The menu', function() {
 
         /* TODO: Write a test that ensures the menu element is
          * hidden by default. You'll have to analyze the HTML and
@@ -67,6 +67,7 @@ $(function() {
           * should have two expectations: does the menu display when
           * clicked and does it hide when clicked again.
           */
+    });
 
     /* TODO: Write a new test suite named "Initial Entries" */
 
