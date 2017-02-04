@@ -44,6 +44,12 @@ $(function() {
          * in the allFeeds object and ensures it has a name defined
          * and that the name is not empty.
          */
+        it('each feed contains a key named "name" and the value is not empty', function() {
+            for(var i = 0; i < len; i++){
+                expect(allFeeds[i].hasOwnProperty("name")).toBe(true);
+                expect(allFeeds[i].url).toBeTruthy();
+            };
+        });
          
     });
 
