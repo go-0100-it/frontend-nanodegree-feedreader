@@ -105,15 +105,13 @@ $(function() {
          * Because, loadFeed() is asynchronous this test uses Jasmine's beforeEach 
          * and asynchronous done() function.
          */
-
         beforeEach(function(done) {
             loadFeed(0, done);
         });
 
-        it("feeds are loaded and added to the DOM", function(done) {
+        it("feeds are loaded and added to the DOM", function() {
             // checking that at least one element with the class "entry-link" have been added to the DOM
-            expect($('.feed .entry').length > 0).toBeTruthy();
-            done();
+            expect($('.feed .entry').length).toBeGreaterThan(0);
         });
     });
 
@@ -130,39 +128,26 @@ $(function() {
         var secondContent = [];
 
         beforeEach(function(done) {
-            // getting reference to the current feed lists title elements
-
-            var getContent = function(arr) {
-                var contentArray = $('.entry-link').find('h2');
-                // looping the contentArray and pushing the content of the title elements to the testContent array
-                for (i = 0; i < contentArray.length; i++) {
-                    arr.push(contentArray[i].textContent);
-                }
-            };
 
             //calling loadFeed, loading a different feed then previously loaded.
             loadFeed(1, function() {
-                getContent(firstContent);
+
+                firstContent = $('.entry-link').find('h2').text();
+
+                loadFeed(2, function() {
+
+                    secondContent = $('.entry-link').find('h2').text();
+
+                    done();
+                });
             });
-
-            //calling loadFeed, loading a different feed then previously loaded.
-            loadFeed(2, function() {
-                getContent(secondContent);
-                done();
-            });
-
-
-
         });
 
-        it("new feeds loaded have replaced previously loaded feeds", function(done) {
+        it("new feeds loaded have replaced previously loaded feeds", function() {
 
-            var len = firstContent.length >= secondContent.length ? secondContent.length : firstContent.length;
             // looping the contentArray and compare the value of contentArray to ensure it is not equal to the value of newContentArray's text content at each index.
-            for (i = 0; i < len; i++) {
-                expect(firstContent[i]).not.toEqual(secondContent[i]);
-            }
-            done();
+            expect(firstContent).not.toEqual(secondContent);
+
         });
     });
 }());
