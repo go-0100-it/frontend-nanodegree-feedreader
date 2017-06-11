@@ -45,7 +45,6 @@ $(function() {
             }
         });
 
-
         /* A test that loops through each feed
          * in the allFeeds object and ensures it has a name defined
          * and that the name is not empty.
@@ -62,6 +61,7 @@ $(function() {
             }
         });
     });
+
 
 
     /* A new test suite named "The menu" */
@@ -91,7 +91,6 @@ $(function() {
                 console.error('An error occured while running test: ' + err);
                 fail('An error occured while running test: ' + err);
             }
-
         });
 
         /* A test that ensures the menu changes
@@ -102,7 +101,6 @@ $(function() {
         it("hamburger icon toggles menu open and closed on click", function() {
 
             try {
-
                 var el = $('.menu-icon-link');
 
                 // loop twice to ensure the class is being added and removed
@@ -122,14 +120,11 @@ $(function() {
                         el.trigger('click');
                         expect(isMenuHiddenClassAdded()).toBeTruthy();
                     }
-
                 }
-
             } catch (err) {
                 console.error('An error occured while running test: ' + err);
                 fail('An error occured while running test: ' + err);
             }
-
         });
     });
 
@@ -143,8 +138,6 @@ $(function() {
          * and asynchronous done() function.
          */
 
-
-
         beforeEach(function(done) {
             try {
                 loadFeed(0, function() {
@@ -156,10 +149,6 @@ $(function() {
             }
         });
 
-
-
-
-
         it("feeds are loaded and added to the DOM", function(done) {
             try {
                 // checking that at least one element with the class "entry-link" have been added to the DOM
@@ -170,10 +159,9 @@ $(function() {
                 done.fail('An error occured while running test: ' + err);
             }
         });
-
-
-
     });
+
+
 
     /* A new test suite named "New Feed Selection" */
     describe('New Feed Selection', function() {
@@ -188,7 +176,6 @@ $(function() {
         var arrLen;
 
         beforeAll(function(done) {
-
             try {
                 // getting reference to the current feed lists title elements
                 contentArray = $('.entry-link').find('h2');
@@ -214,7 +201,6 @@ $(function() {
         it("new feeds loaded have replaced previously loaded feeds", function(done) {
 
             try {
-
                 // getting reference to the new feed lists title elements
                 var newContentArray = $('.entry-link').find('h2');
 
@@ -226,15 +212,12 @@ $(function() {
                 for (i = 0; i < len; i++) {
                     expect(testContent[i]).not.toEqual(newContentArray[i].textContent);
                 }
-
                 done();
 
             } catch (err) {
                 console.error('An error occured while running the compare content test: ' + err);
                 done.fail('An error occured while running the compare content test: ' + err);
             }
-
-
         });
     });
 }());
