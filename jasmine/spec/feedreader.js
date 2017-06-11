@@ -110,7 +110,8 @@ $(function() {
         });
 
         it("feeds are loaded and added to the DOM", function() {
-            // checking that at least one element with the class "entry-link" have been added to the DOM
+
+            // checking that at least one element with the class "entry" has been added to the DOM
             expect($('.feed .entry').length).toBeGreaterThan(0);
         });
     });
@@ -124,18 +125,23 @@ $(function() {
          * by the loadFeed function that the content actually changes.
          */
 
-        var firstContent = [];
-        var secondContent = [];
+        var firstContent;
+        var secondContent;
 
         beforeEach(function(done) {
 
-            //calling loadFeed, loading a different feed then previously loaded.
+            // Nesting loadFeed function calls to ensure the second call is only executed after the first call has finished.
+            //////////////////////////////////////////////////////////////////////////////////////////////////
+            /// This solution seems so simple and obvious now that my project reviewer hinted toward it ;) ///
+            //////////////////////////////////////////////////////////////////////////////////////////////////
             loadFeed(1, function() {
 
+                // setting all feed titles as one string to the variable ( This idea seems so simple and obvious once my project reviewer suggested it :)
                 firstContent = $('.entry-link').find('h2').text();
 
                 loadFeed(2, function() {
 
+                    // setting all feed titles from the second load as one string to a variable 
                     secondContent = $('.entry-link').find('h2').text();
 
                     done();
@@ -145,7 +151,7 @@ $(function() {
 
         it("new feeds loaded have replaced previously loaded feeds", function() {
 
-            // looping the contentArray and compare the value of contentArray to ensure it is not equal to the value of newContentArray's text content at each index.
+            // comparing the first load title string with the second load title strings to ensure it is not equal.
             expect(firstContent).not.toEqual(secondContent);
 
         });
