@@ -34,14 +34,9 @@ $(function() {
          */
 
         it('all feeds have a url defined that is not empty', function() {
-            try {
-                for (var i = 0; i < len; i++) {
-                    expect(allFeeds[i].hasOwnProperty("url")).toBeTruthy();
-                    expect(allFeeds[i].url).toBeTruthy();
-                }
-            } catch (err) {
-                console.error('An error occured while running test: ' + err);
-                fail('An error occured while running test: ' + err);
+            for (var i = 0; i < len; i++) {
+                expect(allFeeds[i].hasOwnProperty("url")).toBeTruthy();
+                expect(allFeeds[i].url).toBeTruthy();
             }
         });
 
@@ -50,14 +45,9 @@ $(function() {
          * and that the name is not empty.
          */
         it('all feeds have a name defined that is not empty', function() {
-            try {
-                for (var i = 0; i < len; i++) {
-                    expect(allFeeds[i].hasOwnProperty("name")).toBeTruthy();
-                    expect(allFeeds[i].name).toBeTruthy();
-                }
-            } catch (err) {
-                console.error('An error occured while running test: ' + err);
-                fail('An error occured while running test: ' + err);
+            for (var i = 0; i < len; i++) {
+                expect(allFeeds[i].hasOwnProperty("name")).toBeTruthy();
+                expect(allFeeds[i].name).toBeTruthy();
             }
         });
     });
@@ -84,13 +74,8 @@ $(function() {
          * hidden by default.
          */
         it('is hidden by default', function() {
-            try {
-                expect(menuPositionMatrix()).toBe(hiddenPositionMatrix);
-                expect(isMenuHiddenClassAdded()).toBeTruthy();
-            } catch (err) {
-                console.error('An error occured while running test: ' + err);
-                fail('An error occured while running test: ' + err);
-            }
+            expect(menuPositionMatrix()).toBe(hiddenPositionMatrix);
+            expect(isMenuHiddenClassAdded()).toBeTruthy();
         });
 
         /* A test that ensures the menu changes
@@ -99,32 +84,15 @@ $(function() {
          * clicked and does it hide when clicked again.
          */
         it("hamburger icon toggles menu open and closed on click", function() {
+            var el = $('.menu-icon-link');
 
-            try {
-                var el = $('.menu-icon-link');
+            //if it is present trigger click and expect it to be removed
+            el.trigger('click');
+            expect(isMenuHiddenClassAdded()).toBeFalsy();
 
-                // loop twice to ensure the class is being added and removed
-                for (i = 0; i < 2; i++) {
-
-                    // Checking if the class 'menu-hidden' is being added and removed from the body element.
-                    // checking if the class is present
-                    if (isMenuHiddenClassAdded()) {
-
-                        //if it is present trigger click and expect it to be removed
-                        el.trigger('click');
-                        expect(isMenuHiddenClassAdded()).toBeFalsy();
-
-                    } else {
-
-                        //if it is not present trigger click and expect it to be added
-                        el.trigger('click');
-                        expect(isMenuHiddenClassAdded()).toBeTruthy();
-                    }
-                }
-            } catch (err) {
-                console.error('An error occured while running test: ' + err);
-                fail('An error occured while running test: ' + err);
-            }
+            //if it is not present trigger click and expect it to be added
+            el.trigger('click');
+            expect(isMenuHiddenClassAdded()).toBeTruthy();
         });
     });
 
@@ -139,25 +107,13 @@ $(function() {
          */
 
         beforeEach(function(done) {
-            try {
-                loadFeed(0, function() {
-                    done();
-                });
-            } catch (err) {
-                console.error('An error occured while trying to load feeds: ' + err);
-                done.fail('An error occured while trying to load feeds: ' + err);
-            }
+            loadFeed(0, done);
         });
 
         it("feeds are loaded and added to the DOM", function(done) {
-            try {
-                // checking that at least one element with the class "entry-link" have been added to the DOM
-                expect($('.entry-link').length > 0).toBeTruthy();
-                done();
-            } catch (err) {
-                console.error('An error occured while running test: ' + err);
-                done.fail('An error occured while running test: ' + err);
-            }
+            // checking that at least one element with the class "entry-link" have been added to the DOM
+            expect($('.feed .entry').length > 0).toBeTruthy();
+            done();
         });
     });
 
@@ -170,54 +126,43 @@ $(function() {
          * by the loadFeed function that the content actually changes.
          */
 
-        // declaring new array variable to store initial content
-        var testContent = [];
-        var contentArray;
-        var arrLen;
+        var firstContent = [];
+        var secondContent = [];
 
-        beforeAll(function(done) {
-            try {
-                // getting reference to the current feed lists title elements
-                contentArray = $('.entry-link').find('h2');
-                arrLen = contentArray.length;
+        beforeEach(function(done) {
+            // getting reference to the current feed lists title elements
 
-
+            var getContent = function(arr) {
+                var contentArray = $('.entry-link').find('h2');
                 // looping the contentArray and pushing the content of the title elements to the testContent array
-                for (i = 0; i < arrLen; i++) {
-                    testContent.push(contentArray[i].textContent);
+                for (i = 0; i < contentArray.length; i++) {
+                    arr.push(contentArray[i].textContent);
                 }
+            };
 
-                //calling loadFeed, loading a different feed then previously loaded.
-                loadFeed(1, function() {
-                    done();
-                });
-            } catch (err) {
-                console.error('An error occured while trying to load feeds: ' + err);
-                done.fail('An error occured while trying to load feeds: ' + err);
-            }
+            //calling loadFeed, loading a different feed then previously loaded.
+            loadFeed(1, function() {
+                getContent(firstContent);
+            });
+
+            //calling loadFeed, loading a different feed then previously loaded.
+            loadFeed(2, function() {
+                getContent(secondContent);
+                done();
+            });
+
+
 
         });
 
         it("new feeds loaded have replaced previously loaded feeds", function(done) {
 
-            try {
-                // getting reference to the new feed lists title elements
-                var newContentArray = $('.entry-link').find('h2');
-
-                var newLen = newContentArray.length;
-
-                var len = arrLen >= newLen ? newLen : arrLen;
-
-                // looping the contentArray and compare the value of contentArray to ensure it is not equal to the value of newContentArray's text content at each index.
-                for (i = 0; i < len; i++) {
-                    expect(testContent[i]).not.toEqual(newContentArray[i].textContent);
-                }
-                done();
-
-            } catch (err) {
-                console.error('An error occured while running the compare content test: ' + err);
-                done.fail('An error occured while running the compare content test: ' + err);
+            var len = firstContent.length >= secondContent.length ? secondContent.length : firstContent.length;
+            // looping the contentArray and compare the value of contentArray to ensure it is not equal to the value of newContentArray's text content at each index.
+            for (i = 0; i < len; i++) {
+                expect(firstContent[i]).not.toEqual(secondContent[i]);
             }
+            done();
         });
     });
 }());
